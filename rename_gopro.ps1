@@ -27,11 +27,11 @@ if ($folderDialog.ShowDialog() -eq "OK") {
         Remove-Item -Path $_.FullName -Force
     }
 
-    # Rename GH0*.mp4 or GH0*.MP4 files with per-date reset counter
+    # Rename GH*.mp4 files with per-date reset counter
     $lastDate = ""
     $counter = 1
     Get-ChildItem -Path $targetFolder | Where-Object {
-        $_.Name -like "GH0*" -and $_.Extension.ToLower() -eq ".mp4"
+        $_.Name -match "^GH\d+" -and $_.Extension.ToLower() -eq ".mp4"
     } | Sort-Object LastWriteTime | ForEach-Object {
         $date = $_.LastWriteTime.ToString("yyyy-MM-dd")
         if ($date -ne $lastDate) {
